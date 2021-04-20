@@ -1,0 +1,21 @@
+.header {
+	background-color: grey;
+	padding: 2rem 0;
+}
+
+.header ul {
+	display: flex;
+	margin: 0;
+}
+
+.header li {
+	list-style: none;
+	padding-right: 1.5rem;
+}
+
+.header a {
+	text-decoration: none;
+	color: #fff;
+	font-size: 1rem;
+	font-weight: bold;
+}
