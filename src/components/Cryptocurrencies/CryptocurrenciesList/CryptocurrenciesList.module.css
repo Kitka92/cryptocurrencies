@@ -1,0 +1,10 @@
+.cryptocurrenciesList__table {
+	width: 100%;
+	border: 1px solid black;
+	text-align: center;
+	border-collapse: collapse;
+}
+
+.cryptocurrenciesList__theads {
+	border: 1px solid black;
+}
