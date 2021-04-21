@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import styles from './CryptocurrenciesList.module.css';
 import Cryptocurrency from '../Cryptocurrency/Cryptocurrency';
+import axios from 'axios';
 
 const API_KEY = 'ab9b3876-c43d-425a-b9f8-3756e97bda52';
 
@@ -8,28 +9,35 @@ const CryptocurrenciesList = (props) => {
 	const [ cryptocurrencies, setCryptocurrencies ] = useState([]);
 
 	const fetchData = async () => {
-		await fetch(
-			`http://localhost:8080/https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?CMC_PRO_API_KEY=${API_KEY}&limit=10`
-		)
-			.then((response) => (response.ok ? response.json() : Promise.reject(response)))
-			.then((cryptocurrencyData) => {
-				const ids_array = cryptocurrencyData.data.map((cryptocurrency) => cryptocurrency.id);
-				const imagesToFetch = ids_array.join(',');
-				setCryptocurrencies(cryptocurrencyData.data);
-				return fetch(
-					`http://localhost:8080/https://pro-api.coinmarketcap.com/v1/cryptocurrency/info?CMC_PRO_API_KEY=${API_KEY}&id=${imagesToFetch}`
-				);
-			})
-			.then((iconsResponse) => (iconsResponse.ok ? iconsResponse.json() : Promise.reject(iconsResponse)))
-			.then((imagesData) => {
-				console.log('ImagesData: ', imagesData);
-			})
-			.catch((err) => console.log(err));
+		try {
+			const responseCryptocurrencies = await axios.get(
+				`http://localhost:8080/https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?CMC_PRO_API_KEY=${API_KEY}&limit=10`
+			);
+
+			const cryptocurrenciesData = responseCryptocurrencies.data;
+
+			const ids_array = cryptocurrenciesData.data.map((cryptocurrency) => cryptocurrency.id);
+			const imagesToFetch = ids_array.join(',');
+
+			const responseIcons = await axios.get(
+				`http://localhost:8080/https://pro-api.coinmarketcap.com/v1/cryptocurrency/info?CMC_PRO_API_KEY=${API_KEY}&id=${imagesToFetch}`
+			);
+
+			const iconsData = responseIcons.data;
+
+			setCryptocurrencies(() => {
+				return cryptocurrenciesData.data.map((cryptocurrency) => {
+					cryptocurrency.icon = iconsData.data[cryptocurrency.id].logo;
+					return cryptocurrency;
+				});
+			});
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	useEffect(() => {
 		fetchData();
-		console.log(cryptocurrencies);
 	}, []);
 
 	const cryptocurrenciesList = cryptocurrencies.map((cryptocurrency) => {
@@ -38,6 +46,7 @@ const CryptocurrenciesList = (props) => {
 				key={cryptocurrency.id}
 				id={cryptocurrency.id}
 				name={cryptocurrency.name}
+				icon={cryptocurrency.icon}
 				symbol={cryptocurrency.symbol}
 				price={cryptocurrency.quote.USD.price}
 				oneHourChange={cryptocurrency.quote.USD.percent_change_1h}
