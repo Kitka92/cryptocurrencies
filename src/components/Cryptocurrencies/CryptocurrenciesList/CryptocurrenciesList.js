@@ -28,6 +28,7 @@ const CryptocurrenciesList = (props) => {
 			setCryptocurrencies(() => {
 				return cryptocurrenciesData.data.map((cryptocurrency) => {
 					cryptocurrency.icon = iconsData.data[cryptocurrency.id].logo;
+					cryptocurrency.isObserved = false;
 					return cryptocurrency;
 				});
 			});
@@ -40,6 +41,14 @@ const CryptocurrenciesList = (props) => {
 		fetchData();
 	}, []);
 
+	const addToObserved = (currencyId) => {
+		const cryptocurrencyToObserve = cryptocurrencies.map(
+			(cryptocurrency) =>
+				cryptocurrency.id === currencyId ? { ...cryptocurrency, isObserved: true } : cryptocurrency
+		);
+		setCryptocurrencies(cryptocurrencyToObserve);
+	};
+
 	const cryptocurrenciesList = cryptocurrencies.map((cryptocurrency) => {
 		return (
 			<Cryptocurrency
@@ -47,11 +56,13 @@ const CryptocurrenciesList = (props) => {
 				id={cryptocurrency.id}
 				name={cryptocurrency.name}
 				icon={cryptocurrency.icon}
+				isObserved={cryptocurrency.isObserved}
 				symbol={cryptocurrency.symbol}
 				price={cryptocurrency.quote.USD.price}
 				oneHourChange={cryptocurrency.quote.USD.percent_change_1h}
 				oneDayChange={cryptocurrency.quote.USD.percent_change_24h}
 				sevenDaysChange={cryptocurrency.quote.USD.percent_change_7d}
+				addToObserved={addToObserved}
 			/>
 		);
 	});
@@ -61,7 +72,6 @@ const CryptocurrenciesList = (props) => {
 	} else {
 		return (
 			<div>
-				<h1>Cryptocurrencies List</h1>
 				<table className={styles.cryptocurrenciesList__table}>
 					<tbody>
 						<tr>
@@ -72,6 +82,7 @@ const CryptocurrenciesList = (props) => {
 							<th className={styles.cryptocurrenciesList__theads}>1h change</th>
 							<th className={styles.cryptocurrenciesList__theads}>24h change</th>
 							<th className={styles.cryptocurrenciesList__theads}>7days change</th>
+							<th />
 						</tr>
 						{cryptocurrenciesList}
 					</tbody>
