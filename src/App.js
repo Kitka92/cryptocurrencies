@@ -1,18 +1,9 @@
-import Header from './components/UI/Header/Header';
-import CryptocurrenciesList from './components/Cryptocurrencies/CryptocurrenciesList/CryptocurrenciesList';
-import ObservedCurrencies from './components/Cryptocurrencies/ObservedCurrencies/ObservedCurrencies';
-
-import { Route, Switch } from 'react-router-dom';
+import CryptocurrenciesDasboard from './components/Cryptocurrencies/CryptocurrenciesDashboard/CryptocurrenciesDashboard';
 
 const App = () => {
 	return (
 		<div>
-			<Header />
-			<Switch>
-				<Route exact path="/" component={CryptocurrenciesList} />
-				<Route exact path="/observed" render={() => <ObservedCurrencies />} />
-			</Switch>
-			{/* <CryptocurrenciesList /> */}
+			<CryptocurrenciesDasboard />
 		</div>
 	);
 };

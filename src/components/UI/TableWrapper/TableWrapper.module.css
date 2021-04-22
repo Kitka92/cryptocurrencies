@@ -1,4 +1,4 @@
-.cryptocurrenciesList__table {
+.tablewrapper {
 	width: 80%;
 	border: 1px solid black;
 	text-align: center;
@@ -6,6 +6,6 @@
 	margin: 2rem auto;
 }
 
-.cryptocurrenciesList__theads {
+.tablewrapper__theads {
 	border: 1px solid black;
 }
