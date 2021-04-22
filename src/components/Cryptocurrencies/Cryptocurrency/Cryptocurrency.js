@@ -1,9 +1,20 @@
+import Button from '../../UI/Button/Button';
 import styles from './Cryptocurrency.module.css';
 
 const Cryptocurrency = (props) => {
-	const handleClick = () => {
+	const handleAddition = () => {
 		props.addToObserved(props.id);
 	};
+
+	const handleRemoval = () => {
+		props.removeFromBeingObserved(props.id);
+	};
+
+	let button = <Button onClick={handleAddition} buttonMessage="Add to observed" />;
+
+	if (props.isObserved) {
+		button = <Button onClick={handleRemoval} buttonMessage="Remove from observed" />;
+	}
 
 	return (
 		<tr className={styles.cryptocurrency}>
@@ -12,13 +23,11 @@ const Cryptocurrency = (props) => {
 			</td>
 			<td>{props.name}</td>
 			<td>{props.symbol}</td>
-			<td>$ {props.price}</td>
-			<td>{props.oneHourChange}%</td>
-			<td>{props.oneDayChange}%</td>
-			<td>{props.sevenDaysChange}%</td>
-			<td>
-				<button onClick={handleClick}>Add to observed</button>
-			</td>
+			<td>$ {Math.round((props.price + Number.EPSILON) * 100) / 100}</td>
+			<td>{Math.round((props.oneHourChange + Number.EPSILON) * 100) / 100} %</td>
+			<td>{Math.round((props.oneDayChange + Number.EPSILON) * 100) / 100} %</td>
+			<td>{Math.round((props.sevenDaysChange + Number.EPSILON) * 100) / 100} %</td>
+			<td>{button}</td>
 		</tr>
 	);
 };

@@ -16,6 +16,7 @@ const CryptocurrenciesList = (props) => {
 				oneDayChange={cryptocurrency.quote.USD.percent_change_24h}
 				sevenDaysChange={cryptocurrency.quote.USD.percent_change_7d}
 				addToObserved={props.addToBeObserved}
+				removeFromBeingObserved={props.removeFromObserved}
 			/>
 		);
 	});

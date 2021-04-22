@@ -50,6 +50,14 @@ const CryptocurrenciesDasboard = () => {
 		setCryptocurrencies(cryptocurrenciesToObserve);
 	};
 
+	const handleRemoval = (currencyId) => {
+		const cryptocurrenciesToRemoveFromObserved = cryptocurrencies.map(
+			(cryptocurrency) =>
+				cryptocurrency.id === currencyId ? { ...cryptocurrency, isObserved: false } : cryptocurrency
+		);
+		setCryptocurrencies(cryptocurrenciesToRemoveFromObserved);
+	};
+
 	return (
 		<div>
 			<Header />
@@ -58,13 +66,22 @@ const CryptocurrenciesDasboard = () => {
 					exact
 					path="/"
 					render={() => (
-						<CryptocurrenciesList cryptocurrencies={cryptocurrencies} addToBeObserved={handleObserved} />
+						<CryptocurrenciesList
+							cryptocurrencies={cryptocurrencies}
+							addToBeObserved={handleObserved}
+							removeFromObserved={handleRemoval}
+						/>
 					)}
 				/>
 				<Route
 					exact
 					path="/observed"
-					render={() => <ObservedCurrencies observableCurrencies={cryptocurrencies} />}
+					render={() => (
+						<ObservedCurrencies
+							observableCurrencies={cryptocurrencies}
+							removeFromObserved={handleRemoval}
+						/>
+					)}
 				/>
 			</Switch>
 		</div>
