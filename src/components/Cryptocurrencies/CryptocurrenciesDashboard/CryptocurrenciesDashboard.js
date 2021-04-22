@@ -38,8 +38,47 @@ const CryptocurrenciesDasboard = () => {
 		}
 	};
 
+	// const fetchData = async () => {
+	// 	try {
+	// 		const responseCryptocurrencies = await axios.get(
+	// 			`http://localhost:8080/https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?CMC_PRO_API_KEY=${API_KEY}&limit=50`
+	// 		);
+
+	// 		const cryptocurrenciesData = responseCryptocurrencies.data;
+
+	// 		const ids_array = cryptocurrenciesData.data.map((cryptocurrency) => cryptocurrency.id);
+	// 		const imagesToFetch = ids_array.join(',');
+
+	// 		const responseIcons = await axios.get(
+	// 			`http://localhost:8080/https://pro-api.coinmarketcap.com/v1/cryptocurrency/info?CMC_PRO_API_KEY=${API_KEY}&id=${imagesToFetch}`
+	// 		);
+
+	// 		const iconsData = responseIcons.data;
+
+	// 		console.log(cryptocurrenciesData.data);
+	// 		console.log(iconsData.data);
+
+	// 		return [ cryptocurrenciesData, iconsData ];
+	// 	} catch (error) {
+	// 		console.log(error);
+	// 	}
+	// };
+
+	// const cryptocurrenciesSetup = (cryptocurrenciesInfo, cryptocurrenciesIcons) => {
+	// 	setCryptocurrencies(() => {
+	// 		if (cryptocurrenciesInfo && cryptocurrenciesIcons) {
+	// 			return cryptocurrenciesInfo.data.map((cryptocurrency) => {
+	// 				cryptocurrency.icon = cryptocurrenciesIcons.data[cryptocurrency.id].logo;
+	// 				cryptocurrency.isObserved = false;
+	// 				return cryptocurrency;
+	// 			});
+	// 		}
+	// 	});
+	// };
+
 	useEffect(() => {
 		fetchData();
+		// cryptocurrenciesSetup(fetchData[0], fetchData[1]);
 	}, []);
 
 	const handleObserved = (currencyId) => {

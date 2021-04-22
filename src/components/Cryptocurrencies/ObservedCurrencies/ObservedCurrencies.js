@@ -1,5 +1,6 @@
 import TableWrapper from '../../UI/TableWrapper/TableWrapper';
 import Cryptocurrency from '../Cryptocurrency/Cryptocurrency';
+import Container from '../../UI/Container/Container';
 import styles from './ObservedCurrencies.module.css';
 
 const ObservedCurrencies = (props) => {
@@ -24,7 +25,11 @@ const ObservedCurrencies = (props) => {
 		return <p className={styles.observedCurrencies__none}>Currently you don't observe any cryptocurrency.</p>;
 	}
 
-	return <TableWrapper>{currenciestoDisplay}</TableWrapper>;
+	return (
+		<Container>
+			<TableWrapper>{currenciestoDisplay}</TableWrapper>
+		</Container>
+	);
 };
 
 export default ObservedCurrencies;
