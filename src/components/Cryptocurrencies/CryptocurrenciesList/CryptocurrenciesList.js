@@ -1,12 +1,9 @@
-import { useState } from 'react';
 import TableWrapper from '../../UI/TableWrapper/TableWrapper';
 import Cryptocurrency from '../Cryptocurrency/Cryptocurrency';
 import Container from '../../UI/Container/Container';
 import styles from './CryptocurrenciesList.module.css';
 
 const CryptocurrenciesList = (props) => {
-	const [ searchedValue, setSearchedValue ] = useState('');
-
 	const cryptocurrenciesList = props.cryptocurrencies.map((cryptocurrency) => {
 		return (
 			<Cryptocurrency
@@ -26,17 +23,12 @@ const CryptocurrenciesList = (props) => {
 		);
 	});
 
-	const handleChange = (event) => {
-		setSearchedValue(event.target.value);
-	};
-
 	if (props.cryptocurrencies.length === 0) {
 		return null;
 	}
 	return (
 		<div className={styles.cryptocurrenciesList}>
 			<Container>
-				<input type="text" placeholder="Search..." onChange={handleChange} />
 				<TableWrapper>{cryptocurrenciesList}</TableWrapper>
 			</Container>
 		</div>

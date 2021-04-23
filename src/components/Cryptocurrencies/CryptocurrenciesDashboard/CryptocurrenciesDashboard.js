@@ -3,6 +3,7 @@ import axios from 'axios';
 import Header from '../../UI/Header/Header';
 import CryptocurrenciesList from '../CryptocurrenciesList/CryptocurrenciesList';
 import ObservedCurrencies from '../ObservedCurrencies/ObservedCurrencies';
+import Search from '../Search/Search';
 import { Route, Switch } from 'react-router-dom';
 
 const CryptocurrenciesDasboard = () => {
@@ -97,6 +98,17 @@ const CryptocurrenciesDasboard = () => {
 		setCryptocurrencies(cryptocurrenciesToRemoveFromObserved);
 	};
 
+	const handleSearch = (searchedItem) => {
+		const filteredCryptocurrencies = cryptocurrencies.filter((currency) => {
+			return (
+				currency.name.toLowerCase().includes(searchedItem.toLowerCase()) ||
+				currency.symbol.toLowerCase().includes(searchedItem.toLowerCase())
+			);
+		});
+
+		setCryptocurrencies(filteredCryptocurrencies);
+	};
+
 	return (
 		<div>
 			<Header />
@@ -105,11 +117,14 @@ const CryptocurrenciesDasboard = () => {
 					exact
 					path="/"
 					render={() => (
-						<CryptocurrenciesList
-							cryptocurrencies={cryptocurrencies}
-							addToBeObserved={handleObserved}
-							removeFromObserved={handleRemoval}
-						/>
+						<div>
+							<Search onSearch={handleSearch} />
+							<CryptocurrenciesList
+								cryptocurrencies={cryptocurrencies}
+								addToBeObserved={handleObserved}
+								removeFromObserved={handleRemoval}
+							/>
+						</div>
 					)}
 				/>
 				<Route
