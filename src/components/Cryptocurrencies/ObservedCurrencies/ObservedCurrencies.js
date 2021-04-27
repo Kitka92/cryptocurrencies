@@ -17,7 +17,7 @@ const ObservedCurrencies = (props) => {
 			oneHourChange={currency.quote.USD.percent_change_1h}
 			oneDayChange={currency.quote.USD.percent_change_24h}
 			sevenDaysChange={currency.quote.USD.percent_change_7d}
-			removeFromBeingObserved={props.removeFromObserved}
+			toggleObserved={props.toggleObserved}
 		/>
 	));
 
