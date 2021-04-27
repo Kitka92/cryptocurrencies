@@ -1,12 +1,33 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
+// import useSearchCryptocurrencies from './searchCryptocurrencies';
 
 const useCryptocurrencies = (initialVal) => {
 	const API_KEY = 'ab9b3876-c43d-425a-b9f8-3756e97bda52';
-	const [ cryptocurrencies, setCryptocurrencies ] = useState(initialVal);
+	const [ cryptocurrencies, setCryptocurrencies ] = useState([]);
+	const [ searchedCurrencies, setSearchedCurrencies ] = useState([]);
+
+	useEffect(
+		() => {
+			setSearchedCurrencies([ ...cryptocurrencies ]);
+		},
+		[ cryptocurrencies ]
+	);
+
+	console.log('initial prop time: ' + initialVal);
+
+	// useEffect(
+	// 	() => {
+	// 		console.log('changed prop time: ' + initialVal);
+	// 	},
+	// 	[ initialVal ]
+	// );
+
+	// const { handleSearch, searchedCurrencies } = useSearchCryptocurrencies(cryptocurrencies);
 
 	return {
 		cryptocurrencies,
+		searchedCurrencies,
 		fetchData: async () => {
 			try {
 				const responseCryptocurrencies = await axios.get(
@@ -31,6 +52,7 @@ const useCryptocurrencies = (initialVal) => {
 						return cryptocurrency;
 					});
 				});
+				setSearchedCurrencies([ ...cryptocurrencies ]);
 			} catch (error) {
 				console.log(error);
 			}
@@ -49,7 +71,15 @@ const useCryptocurrencies = (initialVal) => {
 			);
 			setCryptocurrencies(cryptocurrenciesToRemoveFromObserved);
 		},
+		// handleSearch
 		handleSearch: (searchedItem) => {
+			console.warn(`searchedItem: ${searchedItem}`);
+			if (!searchedItem || searchedItem === '') {
+				console.log(cryptocurrencies);
+				setSearchedCurrencies(cryptocurrencies);
+				return;
+			}
+
 			const filteredCryptocurrencies = cryptocurrencies.filter((currency) => {
 				return (
 					currency.name.toLowerCase().includes(searchedItem.toLowerCase()) ||
@@ -57,7 +87,7 @@ const useCryptocurrencies = (initialVal) => {
 				);
 			});
 
-			setCryptocurrencies(filteredCryptocurrencies);
+			setSearchedCurrencies(filteredCryptocurrencies);
 		}
 	};
 };

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Header from '../../UI/Header/Header';
 import CryptocurrenciesList from '../CryptocurrenciesList/CryptocurrenciesList';
 import ObservedCurrencies from '../ObservedCurrencies/ObservedCurrencies';
@@ -7,10 +7,20 @@ import { Route, Switch } from 'react-router-dom';
 import useCryptocurrencies from '../../../hooks/useCryptocurrencies';
 
 const CryptocurrenciesDasboard = () => {
-	const { cryptocurrencies, fetchData, handleObserved, handleRemoval, handleSearch } = useCryptocurrencies([]);
+	const [ time, setTime ] = useState(new Date().toDateString());
+
+	const {
+		cryptocurrencies,
+		searchedCurrencies,
+		fetchData,
+		handleObserved,
+		handleRemoval,
+		handleSearch
+	} = useCryptocurrencies(time);
 
 	useEffect(() => {
 		fetchData();
+		setTime(new Date().toDateString());
 	}, []);
 
 	return (
@@ -24,7 +34,7 @@ const CryptocurrenciesDasboard = () => {
 						<div>
 							<Search onSearch={handleSearch} />
 							<CryptocurrenciesList
-								cryptocurrencies={cryptocurrencies}
+								cryptocurrencies={searchedCurrencies}
 								addToBeObserved={handleObserved}
 								removeFromObserved={handleRemoval}
 							/>

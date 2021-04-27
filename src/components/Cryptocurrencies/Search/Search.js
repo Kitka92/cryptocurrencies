@@ -6,8 +6,9 @@ const Search = (props) => {
 	const [ searchedValue, setSearchedValue ] = useState('');
 
 	const handleChange = (event) => {
+		console.warn(`Search.handleChange event.target.value = ${event.target.value}`);
 		setSearchedValue(event.target.value);
-		props.onSearch(searchedValue);
+		props.onSearch(event.target.value);
 	};
 	return (
 		<Container>
