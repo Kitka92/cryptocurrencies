@@ -2,18 +2,13 @@ import Button from '../../UI/Button/Button';
 import styles from './Cryptocurrency.module.css';
 
 const Cryptocurrency = (props) => {
-	const handleAddition = () => {
-		props.addToObserved(props.id);
+	const toggleObserved = () => {
+		props.toggleObserved(props.id);
 	};
 
-	const handleRemoval = () => {
-		props.removeFromBeingObserved(props.id);
-	};
-
-	let button = <Button onClick={handleAddition} buttonMessage="Add to observed" />;
-
+	let buttonMsg = 'Add to observed';
 	if (props.isObserved) {
-		button = <Button onClick={handleRemoval} buttonMessage="Remove from observed" />;
+		buttonMsg = 'Remove from observed';
 	}
 
 	return (
@@ -27,7 +22,9 @@ const Cryptocurrency = (props) => {
 			<td>{Math.round((props.oneHourChange + Number.EPSILON) * 100) / 100} %</td>
 			<td>{Math.round((props.oneDayChange + Number.EPSILON) * 100) / 100} %</td>
 			<td>{Math.round((props.sevenDaysChange + Number.EPSILON) * 100) / 100} %</td>
-			<td>{button}</td>
+			<td>
+				<Button onClick={toggleObserved} buttonMessage={buttonMsg} />
+			</td>
 		</tr>
 	);
 };
