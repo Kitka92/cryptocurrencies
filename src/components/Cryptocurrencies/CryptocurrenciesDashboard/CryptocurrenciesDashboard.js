@@ -7,7 +7,14 @@ import { Route, Switch } from 'react-router-dom';
 import useCryptocurrencies from '../../../hooks/useCryptocurrencies';
 
 const CryptocurrenciesDasboard = () => {
-	const { cryptocurrencies, fetchData, handleObserved, handleRemoval, handleSearch } = useCryptocurrencies([]);
+	const {
+		cryptocurrencies,
+		searchedCurrencies,
+		fetchData,
+		handleObserved,
+		handleRemoval,
+		handleSearch
+	} = useCryptocurrencies([]);
 
 	useEffect(() => {
 		fetchData();
@@ -24,7 +31,7 @@ const CryptocurrenciesDasboard = () => {
 						<div>
 							<Search onSearch={handleSearch} />
 							<CryptocurrenciesList
-								cryptocurrencies={cryptocurrencies}
+								cryptocurrencies={searchedCurrencies}
 								addToBeObserved={handleObserved}
 								removeFromObserved={handleRemoval}
 							/>
