@@ -3,11 +3,28 @@ import axios from 'axios';
 import Header from '../../UI/Header/Header';
 import CryptocurrenciesList from '../CryptocurrenciesList/CryptocurrenciesList';
 import ObservedCurrencies from '../ObservedCurrencies/ObservedCurrencies';
+// import useCustomHook from '../../../hooks/useCustomHook';
 import { Route, Switch } from 'react-router-dom';
 
 const CryptocurrenciesDasboard = () => {
 	const API_KEY = 'ab9b3876-c43d-425a-b9f8-3756e97bda52';
 	const [ cryptocurrencies, setCryptocurrencies ] = useState([]);
+	const [ searchedCurrencies, setSearchedCurrencies ] = useState([]);
+	// const [ number, setNumber ] = useState(1);
+
+	// const propsForCustomHooks = {
+	// 	number: 1
+	// };
+
+	// useCustomHook(number);
+
+	// useEffect(() => {
+	// 	setInterval(() => {
+	// 		const newNumber = number + 1;
+	// 		setNumber(newNumber);
+	// 		console.log('incremented ', newNumber);
+	// 	}, 2000);
+	// });
 
 	const fetchData = async () => {
 		try {
@@ -42,6 +59,13 @@ const CryptocurrenciesDasboard = () => {
 		fetchData();
 	}, []);
 
+	useEffect(
+		() => {
+			setSearchedCurrencies([ ...cryptocurrencies ]);
+		},
+		[ cryptocurrencies ]
+	);
+
 	const toggleObserved = (currencyId) => {
 		const cryptocurrenciesToToggle = cryptocurrencies.map(
 			(cryptocurrency) =>
@@ -52,6 +76,16 @@ const CryptocurrenciesDasboard = () => {
 		setCryptocurrencies(cryptocurrenciesToToggle);
 	};
 
+	const handleSearch = (searchedItem) => {
+		const searchedCurrencies = cryptocurrencies.filter((currency) => {
+			return (
+				currency.name.toLowerCase().includes(searchedItem.toLowerCase()) ||
+				currency.symbol.toLowerCase().includes(searchedItem.toLowerCase())
+			);
+		});
+		setSearchedCurrencies(searchedCurrencies);
+	};
+
 	return (
 		<div>
 			<Header />
@@ -60,7 +94,11 @@ const CryptocurrenciesDasboard = () => {
 					exact
 					path="/"
 					render={() => (
-						<CryptocurrenciesList cryptocurrencies={cryptocurrencies} toggleObserved={toggleObserved} />
+						<CryptocurrenciesList
+							cryptocurrencies={searchedCurrencies}
+							toggleObserved={toggleObserved}
+							onSearch={handleSearch}
+						/>
 					)}
 				/>
 				<Route
