@@ -3,9 +3,11 @@ import TableWrapper from '../../UI/TableWrapper/TableWrapper';
 import Cryptocurrency from '../Cryptocurrency/Cryptocurrency';
 import Container from '../../UI/Container/Container';
 import styles from './CryptocurrenciesList.module.css';
+import toggleObserved from '../../../helpers/toggleObserved';
 
 const CryptocurrenciesList = (props) => {
 	const [ searchedVal, setSearchedVal ] = useState('');
+	const setObserved = toggleObserved(props.cryptocurrencies, props.setCurrencies);
 
 	const cryptocurrenciesList = props.cryptocurrencies.map((cryptocurrency) => {
 		return (
@@ -20,14 +22,14 @@ const CryptocurrenciesList = (props) => {
 				oneHourChange={cryptocurrency.quote.USD.percent_change_1h}
 				oneDayChange={cryptocurrency.quote.USD.percent_change_24h}
 				sevenDaysChange={cryptocurrency.quote.USD.percent_change_7d}
-				toggleObserved={props.toggleObserved}
+				toggleObserved={setObserved}
 			/>
 		);
 	});
 
 	const handleChange = (event) => {
 		setSearchedVal(event.target.value);
-		props.onSearch(event.target.value);
+		props.onSearch(event.target.value, props.cryptocurrencies, props.setSearchedCurrencies);
 	};
 
 	if (props.cryptocurrencies.length === 0) {
