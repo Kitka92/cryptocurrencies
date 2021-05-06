@@ -3,7 +3,6 @@ import axios from 'axios';
 import Header from '../../UI/Header/Header';
 import CryptocurrenciesList from '../CryptocurrenciesList/CryptocurrenciesList';
 import ObservedCurrencies from '../ObservedCurrencies/ObservedCurrencies';
-import handleSearch from '../../../helpers/handleSearch';
 import { Route, Switch } from 'react-router-dom';
 
 const CryptocurrenciesDasboard = () => {
@@ -44,29 +43,8 @@ const CryptocurrenciesDasboard = () => {
 		fetchData();
 	}, []);
 
-	useEffect(
-		() => {
-			setSearchedCurrencies([ ...cryptocurrencies ]);
-		},
-		[ cryptocurrencies ]
-	);
-
 	console.log('SearchedCurrencies: ', searchedCurrencies);
 	console.log('Cryptocurrencies: ', cryptocurrencies);
-
-	// const handleSearch = (searchedItem) => {
-	// 	if (!searchedItem) {
-	// 		setSearchedCurrencies(cryptocurrencies);
-	// 		return;
-	// 	}
-	// 	const searchedCurrencies = cryptocurrencies.filter((currency) => {
-	// 		return (
-	// 			currency.name.toLowerCase().includes(searchedItem.toLowerCase()) ||
-	// 			currency.symbol.toLowerCase().includes(searchedItem.toLowerCase())
-	// 		);
-	// 	});
-	// 	setSearchedCurrencies(searchedCurrencies);
-	// };
 
 	return (
 		<div>
@@ -77,8 +55,7 @@ const CryptocurrenciesDasboard = () => {
 					path="/"
 					render={() => (
 						<CryptocurrenciesList
-							cryptocurrencies={searchedCurrencies}
-							onSearch={handleSearch}
+							cryptocurrencies={cryptocurrencies}
 							setCurrencies={setCryptocurrencies}
 							setSearchedCurrencies={setSearchedCurrencies}
 						/>

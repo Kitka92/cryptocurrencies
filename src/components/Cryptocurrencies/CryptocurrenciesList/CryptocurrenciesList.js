@@ -4,12 +4,14 @@ import Cryptocurrency from '../Cryptocurrency/Cryptocurrency';
 import Container from '../../UI/Container/Container';
 import styles from './CryptocurrenciesList.module.css';
 import toggleObserved from '../../../helpers/toggleObserved';
+import filterCurrencies from '../../../helpers/filterCurrencies';
 
 const CryptocurrenciesList = (props) => {
 	const [ searchedVal, setSearchedVal ] = useState('');
 	const setObserved = toggleObserved(props.cryptocurrencies, props.setCurrencies);
 
-	const cryptocurrenciesList = props.cryptocurrencies.map((cryptocurrency) => {
+	const cryptoCurrenciesToDisplay = filterCurrencies(searchedVal, props.cryptocurrencies);
+	const cryptocurrenciesList = cryptoCurrenciesToDisplay.map((cryptocurrency) => {
 		return (
 			<Cryptocurrency
 				key={cryptocurrency.id}
@@ -29,7 +31,6 @@ const CryptocurrenciesList = (props) => {
 
 	const handleChange = (event) => {
 		setSearchedVal(event.target.value);
-		props.onSearch(event.target.value, props.cryptocurrencies, props.setSearchedCurrencies);
 	};
 
 	if (props.cryptocurrencies.length === 0) {

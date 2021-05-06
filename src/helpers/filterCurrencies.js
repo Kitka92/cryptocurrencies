@@ -1,7 +1,6 @@
-const handleSearch = (searchedItem, allCurrencies, setCurrencies) => {
+const filterCurrencies = (searchedItem, allCurrencies) => {
 	if (!searchedItem) {
-		setCurrencies(allCurrencies);
-		return;
+		return allCurrencies;
 	}
 	const searchedCurrencies = allCurrencies.filter((currency) => {
 		return (
@@ -9,7 +8,7 @@ const handleSearch = (searchedItem, allCurrencies, setCurrencies) => {
 			currency.symbol.toLowerCase().includes(searchedItem.toLowerCase())
 		);
 	});
-	setCurrencies(searchedCurrencies);
+	return searchedCurrencies;
 };
 
-export default handleSearch;
+export default filterCurrencies;
