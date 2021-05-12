@@ -8,7 +8,6 @@ import { Route, Switch } from 'react-router-dom';
 const CryptocurrenciesDasboard = () => {
 	const API_KEY = 'ab9b3876-c43d-425a-b9f8-3756e97bda52';
 	const [ cryptocurrencies, setCryptocurrencies ] = useState([]);
-	const [ searchedCurrencies, setSearchedCurrencies ] = useState([]);
 
 	const fetchData = async () => {
 		try {
@@ -43,9 +42,6 @@ const CryptocurrenciesDasboard = () => {
 		fetchData();
 	}, []);
 
-	console.log('SearchedCurrencies: ', searchedCurrencies);
-	console.log('Cryptocurrencies: ', cryptocurrencies);
-
 	return (
 		<div>
 			<Header />
@@ -54,11 +50,7 @@ const CryptocurrenciesDasboard = () => {
 					exact
 					path="/"
 					render={() => (
-						<CryptocurrenciesList
-							cryptocurrencies={cryptocurrencies}
-							setCurrencies={setCryptocurrencies}
-							setSearchedCurrencies={setSearchedCurrencies}
-						/>
+						<CryptocurrenciesList cryptocurrencies={cryptocurrencies} setCurrencies={setCryptocurrencies} />
 					)}
 				/>
 				<Route
