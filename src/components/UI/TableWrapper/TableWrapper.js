@@ -1,8 +1,11 @@
+import { useContext } from 'react';
 import styles from './TableWrapper.module.css';
+import { ThemeContext } from '../../../context/ThemeContext';
 
 const TableWrapper = (props) => {
+	const { isDarkMode } = useContext(ThemeContext);
 	return (
-		<table className={styles.tablewrapper}>
+		<table className={isDarkMode ? styles.dark : styles.tablewrapper}>
 			<tbody>
 				<tr>
 					<th className={styles.tablewrapper__theads}>Icon</th>

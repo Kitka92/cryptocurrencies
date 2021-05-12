@@ -1,14 +1,16 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import TableWrapper from '../../UI/TableWrapper/TableWrapper';
 import Cryptocurrency from '../Cryptocurrency/Cryptocurrency';
 import Container from '../../UI/Container/Container';
 import styles from './CryptocurrenciesList.module.css';
 import toggleObserved from '../../../helpers/toggleObserved';
 import filterCurrencies from '../../../helpers/filterCurrencies';
+import { ThemeContext } from '../../../context/ThemeContext';
 
 const CryptocurrenciesList = (props) => {
 	const [ searchedVal, setSearchedVal ] = useState('');
 	const setObserved = toggleObserved(props.cryptocurrencies, props.setCurrencies);
+	const { isDarkMode } = useContext(ThemeContext);
 
 	const cryptoCurrenciesToDisplay = filterCurrencies(searchedVal, props.cryptocurrencies);
 	const cryptocurrenciesList = cryptoCurrenciesToDisplay.map((cryptocurrency) => {
@@ -37,7 +39,7 @@ const CryptocurrenciesList = (props) => {
 		return null;
 	}
 	return (
-		<div className={styles.cryptocurrenciesList}>
+		<div className={isDarkMode ? `${styles.cryptocurrenciesList} ${styles.dark}` : styles.cryptocurrenciesList}>
 			<Container>
 				<input placeholder="Search by name or symbol..." onChange={handleChange} value={searchedVal} />
 				<TableWrapper>{cryptocurrenciesList}</TableWrapper>

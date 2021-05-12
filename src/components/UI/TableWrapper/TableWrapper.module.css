@@ -9,3 +9,17 @@
 .tablewrapper__theads {
 	border: 1px solid black;
 }
+
+.dark {
+	width: 100%;
+	border: 1px solid #2196F3;
+	text-align: center;
+	border-collapse: collapse;
+	margin: 2rem auto;
+	background-color:#414245;
+}
+
+.dark .tablewrapper__theads {
+	border: 1px solid #2196F3;
+	color: lightgray;
+}

@@ -3,6 +3,7 @@ import axios from 'axios';
 import Header from '../../UI/Header/Header';
 import CryptocurrenciesList from '../CryptocurrenciesList/CryptocurrenciesList';
 import ObservedCurrencies from '../ObservedCurrencies/ObservedCurrencies';
+import { ThemeProvider } from '../../../context/ThemeContext';
 import { Route, Switch } from 'react-router-dom';
 
 const CryptocurrenciesDasboard = () => {
@@ -43,7 +44,7 @@ const CryptocurrenciesDasboard = () => {
 	}, []);
 
 	return (
-		<div>
+		<ThemeProvider>
 			<Header />
 			<Switch>
 				<Route
@@ -64,7 +65,7 @@ const CryptocurrenciesDasboard = () => {
 					)}
 				/>
 			</Switch>
-		</div>
+		</ThemeProvider>
 	);
 };
 

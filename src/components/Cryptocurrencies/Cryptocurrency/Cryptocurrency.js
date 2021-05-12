@@ -1,4 +1,6 @@
+import { useContext } from 'react';
 import Button from '../../UI/Button/Button';
+import { ThemeContext } from '../../../context/ThemeContext';
 import styles from './Cryptocurrency.module.css';
 
 const Cryptocurrency = (props) => {
@@ -10,9 +12,10 @@ const Cryptocurrency = (props) => {
 	if (props.isObserved) {
 		buttonMsg = 'Remove from observed';
 	}
-
+	const { isDarkMode } = useContext(ThemeContext);
 	return (
-		<tr className={styles.cryptocurrency}>
+		<tr className={isDarkMode ? styles.dark : styles.cryptocurrency}>
+			{/* <tr className={styles.cryptocurrency}> */}
 			<td>
 				<img alt={`${props.name} icon`} src={`${props.icon}`} />
 			</td>
