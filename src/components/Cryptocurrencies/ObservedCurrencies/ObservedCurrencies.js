@@ -2,10 +2,14 @@ import TableWrapper from '../../UI/TableWrapper/TableWrapper';
 import Cryptocurrency from '../Cryptocurrency/Cryptocurrency';
 import Container from '../../UI/Container/Container';
 import styles from './ObservedCurrencies.module.css';
+import toggleObserved from '../../../helpers/toggleObserved';
 
 const ObservedCurrencies = (props) => {
+	const setObserved = toggleObserved(props.observableCurrencies, props.setCurrencies);
+
 	const observedCurrencies = props.observableCurrencies.filter((currency) => currency.isObserved === true);
-	const currenciestoDisplay = observedCurrencies.map((currency) => (
+
+	const currenciesToDisplay = observedCurrencies.map((currency) => (
 		<Cryptocurrency
 			key={currency.id}
 			id={currency.id}
@@ -17,17 +21,17 @@ const ObservedCurrencies = (props) => {
 			oneHourChange={currency.quote.USD.percent_change_1h}
 			oneDayChange={currency.quote.USD.percent_change_24h}
 			sevenDaysChange={currency.quote.USD.percent_change_7d}
-			toggleObserved={props.toggleObserved}
+			toggleObserved={setObserved}
 		/>
 	));
 
-	if (currenciestoDisplay.length === 0) {
+	if (currenciesToDisplay.length === 0) {
 		return <p className={styles.observedCurrencies__none}>Currently you don't observe any cryptocurrency.</p>;
 	}
 
 	return (
 		<Container>
-			<TableWrapper>{currenciestoDisplay}</TableWrapper>
+			<TableWrapper>{currenciesToDisplay}</TableWrapper>
 		</Container>
 	);
 };
