@@ -2,20 +2,25 @@ import { useContext } from 'react';
 import Button from '../../UI/Button/Button';
 import { ThemeContext } from '../../../context/ThemeContext';
 import styles from './Cryptocurrency.module.css';
+import { buttonTexts } from './buttonTexts';
+import { LanguageContext, LanguageProvider } from '../../../context/LanguageContext';
 
 const Cryptocurrency = (props) => {
 	const toggleObserved = () => {
 		props.toggleObserved(props.id);
 	};
 
-	let buttonMsg = 'Add to observed';
+	const { language } = useContext(LanguageContext);
+
+	const { addToObserved, removedFromObserved } = buttonTexts[language];
+
+	let buttonMsg = addToObserved;
 	if (props.isObserved) {
-		buttonMsg = 'Remove from observed';
+		buttonMsg = removedFromObserved;
 	}
 	const { isDarkMode } = useContext(ThemeContext);
 	return (
 		<tr className={isDarkMode ? styles.dark : styles.cryptocurrency}>
-			{/* <tr className={styles.cryptocurrency}> */}
 			<td>
 				<img alt={`${props.name} icon`} src={`${props.icon}`} />
 			</td>

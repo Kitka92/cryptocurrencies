@@ -12,6 +12,8 @@ nav {
 	display: flex;
 	margin: 0;
 	padding: 0 2rem;
+	color: #fff;
+	font-weight: bold;
 }
 
 .header__link {
@@ -26,6 +28,19 @@ nav {
 .header__link:first-child {
 	font-size: 1.5rem;
 }
+
+
+select {
+	margin-left: auto;
+	border: 1px solid red;
+	position: fixed;
+	right: 100px;
+	cursor: pointer;
+	align-self: center;
+	padding: 8px;
+	border-radius: 5px;
+}
+
 
 .switch {
 	position: relative;
