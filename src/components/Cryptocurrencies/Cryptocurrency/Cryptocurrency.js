@@ -3,7 +3,7 @@ import Button from '../../UI/Button/Button';
 import { ThemeContext } from '../../../context/ThemeContext';
 import styles from './Cryptocurrency.module.css';
 import { buttonTexts } from './buttonTexts';
-import { LanguageContext, LanguageProvider } from '../../../context/LanguageContext';
+import { LanguageContext } from '../../../context/LanguageContext';
 
 const Cryptocurrency = (props) => {
 	const toggleObserved = () => {
@@ -12,12 +12,8 @@ const Cryptocurrency = (props) => {
 
 	const { language } = useContext(LanguageContext);
 
-	const { addToObserved, removedFromObserved } = buttonTexts[language];
+	const { addToObserved, removeFromObserved } = buttonTexts[language];
 
-	let buttonMsg = addToObserved;
-	if (props.isObserved) {
-		buttonMsg = removedFromObserved;
-	}
 	const { isDarkMode } = useContext(ThemeContext);
 	return (
 		<tr className={isDarkMode ? styles.dark : styles.cryptocurrency}>
@@ -31,7 +27,10 @@ const Cryptocurrency = (props) => {
 			<td>{Math.round((props.oneDayChange + Number.EPSILON) * 100) / 100} %</td>
 			<td>{Math.round((props.sevenDaysChange + Number.EPSILON) * 100) / 100} %</td>
 			<td>
-				<Button onClick={toggleObserved} buttonMessage={buttonMsg} />
+				<Button
+					onClick={toggleObserved}
+					buttonMessage={props.isObserved ? removeFromObserved : addToObserved}
+				/>
 			</td>
 		</tr>
 	);
