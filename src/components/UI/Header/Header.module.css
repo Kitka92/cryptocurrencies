@@ -29,11 +29,9 @@ nav {
 	font-size: 1.5rem;
 }
 
-
 select {
 	margin-left: auto;
-	border: 1px solid red;
-	position: fixed;
+	position: absolute;
 	right: 100px;
 	cursor: pointer;
 	align-self: center;
