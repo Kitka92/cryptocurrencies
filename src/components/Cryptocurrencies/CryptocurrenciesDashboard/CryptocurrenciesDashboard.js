@@ -3,6 +3,8 @@ import axios from 'axios';
 import Header from '../../UI/Header/Header';
 import CryptocurrenciesList from '../CryptocurrenciesList/CryptocurrenciesList';
 import ObservedCurrencies from '../ObservedCurrencies/ObservedCurrencies';
+import { ThemeProvider } from '../../../context/ThemeContext';
+import { LanguageProvider } from '../../../context/LanguageContext';
 import { Route, Switch } from 'react-router-dom';
 
 const CryptocurrenciesDasboard = () => {
@@ -43,28 +45,33 @@ const CryptocurrenciesDasboard = () => {
 	}, []);
 
 	return (
-		<div>
-			<Header />
-			<Switch>
-				<Route
-					exact
-					path="/"
-					render={() => (
-						<CryptocurrenciesList cryptocurrencies={cryptocurrencies} setCurrencies={setCryptocurrencies} />
-					)}
-				/>
-				<Route
-					exact
-					path="/observed"
-					render={() => (
-						<ObservedCurrencies
-							observableCurrencies={cryptocurrencies}
-							setCurrencies={setCryptocurrencies}
-						/>
-					)}
-				/>
-			</Switch>
-		</div>
+		<ThemeProvider>
+			<LanguageProvider>
+				<Header />
+				<Switch>
+					<Route
+						exact
+						path="/"
+						render={() => (
+							<CryptocurrenciesList
+								cryptocurrencies={cryptocurrencies}
+								setCurrencies={setCryptocurrencies}
+							/>
+						)}
+					/>
+					<Route
+						exact
+						path="/observed"
+						render={() => (
+							<ObservedCurrencies
+								observableCurrencies={cryptocurrencies}
+								setCurrencies={setCryptocurrencies}
+							/>
+						)}
+					/>
+				</Switch>
+			</LanguageProvider>
+		</ThemeProvider>
 	);
 };
 

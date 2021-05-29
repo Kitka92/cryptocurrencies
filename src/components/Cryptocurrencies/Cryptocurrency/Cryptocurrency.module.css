@@ -3,3 +3,10 @@
 	width: 12.5%;
 	font-size: 1.2rem;
 }
+
+.dark td{
+	border: 1px solid #2196F3;
+	width: 12.5%;
+	font-size: 1.2rem;
+	color: lightgray;
+}

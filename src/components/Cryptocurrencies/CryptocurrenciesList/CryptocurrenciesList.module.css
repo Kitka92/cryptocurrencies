@@ -1,6 +1,14 @@
+.cryptocurrenciesList {
+	min-height: 100vh;
+}
+
 .cryptocurrenciesList input {
 	padding: 5px 10px;
-	width: 15%;
+	width: 200px;
 	align-self: flex-end;
 	margin-top: 1rem;
+}
+
+.dark {
+	background-color: #414245;
 }
