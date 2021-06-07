@@ -14,21 +14,7 @@ const CryptocurrenciesList = (props) => {
 
 	const cryptoCurrenciesToDisplay = filterCurrencies(searchedVal, props.cryptocurrencies);
 	const cryptocurrenciesList = cryptoCurrenciesToDisplay.map((cryptocurrency) => {
-		return (
-			<Cryptocurrency
-				key={cryptocurrency.id}
-				id={cryptocurrency.id}
-				name={cryptocurrency.name}
-				icon={cryptocurrency.icon}
-				isObserved={cryptocurrency.isObserved}
-				symbol={cryptocurrency.symbol}
-				price={cryptocurrency.quote.USD.price}
-				oneHourChange={cryptocurrency.quote.USD.percent_change_1h}
-				oneDayChange={cryptocurrency.quote.USD.percent_change_24h}
-				sevenDaysChange={cryptocurrency.quote.USD.percent_change_7d}
-				toggleObserved={setObserved}
-			/>
-		);
+		return <Cryptocurrency key={cryptocurrency.id} {...cryptocurrency} toggleObserved={setObserved} />;
 	});
 
 	const handleChange = (event) => {

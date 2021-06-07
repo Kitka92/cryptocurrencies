@@ -14,19 +14,7 @@ const ObservedCurrencies = (props) => {
 	const observedCurrencies = props.observableCurrencies.filter((currency) => currency.isObserved === true);
 
 	const currenciesToDisplay = observedCurrencies.map((currency) => (
-		<Cryptocurrency
-			key={currency.id}
-			id={currency.id}
-			name={currency.name}
-			icon={currency.icon}
-			isObserved={currency.isObserved}
-			symbol={currency.symbol}
-			price={currency.quote.USD.price}
-			oneHourChange={currency.quote.USD.percent_change_1h}
-			oneDayChange={currency.quote.USD.percent_change_24h}
-			sevenDaysChange={currency.quote.USD.percent_change_7d}
-			toggleObserved={setObserved}
-		/>
+		<Cryptocurrency key={currency.id} {...currency} toggleObserved={setObserved} />
 	));
 
 	if (currenciesToDisplay.length === 0) {

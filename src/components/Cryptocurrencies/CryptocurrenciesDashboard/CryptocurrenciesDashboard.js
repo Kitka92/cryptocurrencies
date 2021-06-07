@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import Header from '../../UI/Header/Header';
 import CryptocurrenciesList from '../CryptocurrenciesList/CryptocurrenciesList';
@@ -11,38 +11,50 @@ const CryptocurrenciesDasboard = () => {
 	const API_KEY = 'ab9b3876-c43d-425a-b9f8-3756e97bda52';
 	const [ cryptocurrencies, setCryptocurrencies ] = useState([]);
 
-	const fetchData = async () => {
-		try {
-			const responseCryptocurrencies = await axios.get(
-				`http://localhost:8080/https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?CMC_PRO_API_KEY=${API_KEY}&limit=10`
-			);
+	const fetchCurrencies = useCallback(async () => {
+		const response = await axios.get(
+			`http://localhost:8080/https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?CMC_PRO_API_KEY=${API_KEY}&limit=10`
+		);
 
-			const cryptocurrenciesData = responseCryptocurrencies.data;
+		const cryptocurrenciesData = response.data;
 
-			const ids_array = cryptocurrenciesData.data.map((cryptocurrency) => cryptocurrency.id);
-			const imagesToFetch = ids_array.join(',');
+		const ids_array = cryptocurrenciesData.data.map((cryptocurrency) => cryptocurrency.id);
+		const imagesToFetch = ids_array.join(',');
 
-			const responseIcons = await axios.get(
-				`http://localhost:8080/https://pro-api.coinmarketcap.com/v1/cryptocurrency/info?CMC_PRO_API_KEY=${API_KEY}&id=${imagesToFetch}`
-			);
+		const responseIcons = await axios.get(
+			`http://localhost:8080/https://pro-api.coinmarketcap.com/v1/cryptocurrency/info?CMC_PRO_API_KEY=${API_KEY}&id=${imagesToFetch}`
+		);
 
-			const iconsData = responseIcons.data;
+		const iconsData = responseIcons.data;
 
-			const cryptocurrenciesWithImages = cryptocurrenciesData.data.map((cryptocurrency) => {
-				cryptocurrency.icon = iconsData.data[cryptocurrency.id].logo;
-				cryptocurrency.isObserved = false;
-				return cryptocurrency;
-			});
+		const cryptocurrenciesWithImages = cryptocurrenciesData.data.map((cryptocurrency) => {
+			cryptocurrency.icon = iconsData.data[cryptocurrency.id].logo;
+			return cryptocurrency;
+		});
 
-			setCryptocurrencies(cryptocurrenciesWithImages);
-		} catch (error) {
-			console.log(error);
-		}
-	};
+		const transformedCurrencies = cryptocurrenciesWithImages.map((currency) => {
+			return {
+				id: currency.id,
+				name: currency.name,
+				icon: currency.icon,
+				isObserved: false,
+				symbol: currency.symbol,
+				price: currency.quote.USD.price,
+				oneHourChange: currency.quote.USD.percent_change_1h,
+				oneDayChange: currency.quote.USD.percent_change_24h,
+				sevenDaysChange: currency.quote.USD.percent_change_7d
+			};
+		});
 
-	useEffect(() => {
-		fetchData();
+		setCryptocurrencies(transformedCurrencies);
 	}, []);
+
+	useEffect(
+		() => {
+			fetchCurrencies();
+		},
+		[ fetchCurrencies ]
+	);
 
 	return (
 		<ThemeProvider>

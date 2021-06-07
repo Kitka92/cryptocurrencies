@@ -6,15 +6,14 @@ import { buttonTexts } from './buttonTexts';
 import { LanguageContext } from '../../../context/LanguageContext';
 
 const Cryptocurrency = (props) => {
+	const { language } = useContext(LanguageContext);
+	const { addToObserved, removeFromObserved } = buttonTexts[language];
+	const { isDarkMode } = useContext(ThemeContext);
+
 	const toggleObserved = () => {
 		props.toggleObserved(props.id);
 	};
 
-	const { language } = useContext(LanguageContext);
-
-	const { addToObserved, removeFromObserved } = buttonTexts[language];
-
-	const { isDarkMode } = useContext(ThemeContext);
 	return (
 		<tr className={isDarkMode ? styles.dark : styles.cryptocurrency}>
 			<td>
