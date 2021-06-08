@@ -2,10 +2,11 @@ import { useState, useContext } from 'react';
 import TableWrapper from '../../UI/TableWrapper/TableWrapper';
 import Cryptocurrency from '../Cryptocurrency/Cryptocurrency';
 import Container from '../../UI/Container/Container';
-import styles from './CryptocurrenciesList.module.css';
 import toggleObserved from '../../../helpers/toggleObserved';
 import filterCurrencies from '../../../helpers/filterCurrencies';
 import { ThemeContext } from '../../../context/ThemeContext';
+
+import styles from './CryptocurrenciesList.module.css';
 
 const CryptocurrenciesList = (props) => {
 	const [ searchedVal, setSearchedVal ] = useState('');
