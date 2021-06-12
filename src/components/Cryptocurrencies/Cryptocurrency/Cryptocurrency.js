@@ -10,10 +10,16 @@ const Cryptocurrency = (props) => {
 	const { language } = useContext(LanguageContext);
 	const { addToObserved, removeFromObserved } = buttonTexts[language];
 	const { isDarkMode } = useContext(ThemeContext);
-	const { observedCurrenciesIds, addCurrenciesToObserved } = useContext(ObservedCurrenciesContext);
+	const { observedCurrenciesIds, addCurrenciesToObserved, removeCurrenciesFromObserved } = useContext(
+		ObservedCurrenciesContext
+	);
 
 	const toggleObserved = () => {
-		addCurrenciesToObserved(props.id);
+		if (observedCurrenciesIds.has(props.id)) {
+			removeCurrenciesFromObserved(props.id);
+		} else {
+			addCurrenciesToObserved(props.id);
+		}
 	};
 
 	return (

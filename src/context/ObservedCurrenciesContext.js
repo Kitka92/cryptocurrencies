@@ -15,8 +15,23 @@ export const ObservedCurrenciesProvider = (props) => {
 		);
 	};
 
+	const removeCurrenciesFromObserved = (currencyId) => {
+		const observedCurrencyId = props.cryptocurrencies
+			.filter((currency) => currency.id === currencyId)
+			.map((currency) => currency.id);
+
+		const observedCurrenciesIdsCopy = new Set(observedCurrenciesIds);
+
+		observedCurrencyId.forEach((value) => {
+			observedCurrenciesIdsCopy.delete(value);
+			setObservedCurrenciesIds(new Set(observedCurrenciesIdsCopy));
+		});
+	};
+
 	return (
-		<ObservedCurrenciesContext.Provider value={{ observedCurrenciesIds, addCurrenciesToObserved }}>
+		<ObservedCurrenciesContext.Provider
+			value={{ observedCurrenciesIds, addCurrenciesToObserved, removeCurrenciesFromObserved }}
+		>
 			{props.children}
 		</ObservedCurrenciesContext.Provider>
 	);

@@ -11,7 +11,6 @@ const ObservedCurrencies = (props) => {
 	const { observedCurrenciesIds } = useContext(ObservedCurrenciesContext);
 
 	const observedCurrencies = props.observableCurrencies.filter((currency) => observedCurrenciesIds.has(currency.id));
-	console.log(observedCurrencies);
 
 	const currenciesToDisplay = observedCurrencies.map((currency) => (
 		<Cryptocurrency key={currency.id} {...currency} />
