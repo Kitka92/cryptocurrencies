@@ -6,6 +6,7 @@ import ObservedCurrencies from '../ObservedCurrencies/ObservedCurrencies';
 import { ThemeProvider } from '../../../context/ThemeContext';
 import { LanguageProvider } from '../../../context/LanguageContext';
 import { Route, Switch } from 'react-router-dom';
+import { ObservedCurrenciesProvider } from '../../../context/ObservedCurrenciesContext';
 
 const CryptocurrenciesDasboard = () => {
 	const API_KEY = 'ab9b3876-c43d-425a-b9f8-3756e97bda52';
@@ -60,28 +61,30 @@ const CryptocurrenciesDasboard = () => {
 		<ThemeProvider>
 			<LanguageProvider>
 				<Header />
-				<Switch>
-					<Route
-						exact
-						path="/"
-						render={() => (
-							<CryptocurrenciesList
-								cryptocurrencies={cryptocurrencies}
-								setCurrencies={setCryptocurrencies}
-							/>
-						)}
-					/>
-					<Route
-						exact
-						path="/observed"
-						render={() => (
-							<ObservedCurrencies
-								observableCurrencies={cryptocurrencies}
-								setCurrencies={setCryptocurrencies}
-							/>
-						)}
-					/>
-				</Switch>
+				<ObservedCurrenciesProvider cryptocurrencies={cryptocurrencies}>
+					<Switch>
+						<Route
+							exact
+							path="/"
+							render={() => (
+								<CryptocurrenciesList
+									cryptocurrencies={cryptocurrencies}
+									setCurrencies={setCryptocurrencies}
+								/>
+							)}
+						/>
+						<Route
+							exact
+							path="/observed"
+							render={() => (
+								<ObservedCurrencies
+									observableCurrencies={cryptocurrencies}
+									setCurrencies={setCryptocurrencies}
+								/>
+							)}
+						/>
+					</Switch>
+				</ObservedCurrenciesProvider>
 			</LanguageProvider>
 		</ThemeProvider>
 	);

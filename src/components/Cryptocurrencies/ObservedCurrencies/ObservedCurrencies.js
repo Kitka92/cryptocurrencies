@@ -3,18 +3,18 @@ import TableWrapper from '../../UI/TableWrapper/TableWrapper';
 import Cryptocurrency from '../Cryptocurrency/Cryptocurrency';
 import Container from '../../UI/Container/Container';
 import styles from './ObservedCurrencies.module.css';
-import toggleObserved from '../../../helpers/toggleObserved';
 import { ThemeContext } from '../../../context/ThemeContext';
+import { ObservedCurrenciesContext } from '../../../context/ObservedCurrenciesContext';
 
 const ObservedCurrencies = (props) => {
 	const { isDarkMode } = useContext(ThemeContext);
+	const { observedCurrenciesIds } = useContext(ObservedCurrenciesContext);
 
-	const setObserved = toggleObserved(props.observableCurrencies, props.setCurrencies);
-
-	const observedCurrencies = props.observableCurrencies.filter((currency) => currency.isObserved === true);
+	const observedCurrencies = props.observableCurrencies.filter((currency) => observedCurrenciesIds.has(currency.id));
+	console.log(observedCurrencies);
 
 	const currenciesToDisplay = observedCurrencies.map((currency) => (
-		<Cryptocurrency key={currency.id} {...currency} toggleObserved={setObserved} />
+		<Cryptocurrency key={currency.id} {...currency} />
 	));
 
 	if (currenciesToDisplay.length === 0) {
