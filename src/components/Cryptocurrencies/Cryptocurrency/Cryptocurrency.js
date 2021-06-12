@@ -4,14 +4,16 @@ import { ThemeContext } from '../../../context/ThemeContext';
 import styles from './Cryptocurrency.module.css';
 import { buttonTexts } from './buttonTexts';
 import { LanguageContext } from '../../../context/LanguageContext';
+import { ObservedCurrenciesContext } from '../../../context/ObservedCurrenciesContext';
 
 const Cryptocurrency = (props) => {
 	const { language } = useContext(LanguageContext);
 	const { addToObserved, removeFromObserved } = buttonTexts[language];
 	const { isDarkMode } = useContext(ThemeContext);
+	const { observedCurrenciesIds, addCurrenciesToObserved } = useContext(ObservedCurrenciesContext);
 
 	const toggleObserved = () => {
-		props.toggleObserved(props.id);
+		addCurrenciesToObserved(props.id);
 	};
 
 	return (
@@ -28,7 +30,7 @@ const Cryptocurrency = (props) => {
 			<td>
 				<Button
 					onClick={toggleObserved}
-					buttonMessage={props.isObserved ? removeFromObserved : addToObserved}
+					buttonMessage={observedCurrenciesIds.has(props.id) ? removeFromObserved : addToObserved}
 				/>
 			</td>
 		</tr>
