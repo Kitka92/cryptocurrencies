@@ -10,16 +10,10 @@ const Cryptocurrency = (props) => {
 	const { language } = useContext(LanguageContext);
 	const { addToObserved, removeFromObserved } = buttonTexts[language];
 	const { isDarkMode } = useContext(ThemeContext);
-	const { observedCurrenciesIds, addCurrenciesToObserved, removeCurrenciesFromObserved } = useContext(
-		ObservedCurrenciesContext
-	);
+	const { observedCurrenciesIds, toggleObserved } = useContext(ObservedCurrenciesContext);
 
-	const toggleObserved = () => {
-		if (observedCurrenciesIds.has(props.id)) {
-			removeCurrenciesFromObserved(props.id);
-		} else {
-			addCurrenciesToObserved(props.id);
-		}
+	const toggleObservedCurrencies = () => {
+		toggleObserved(props.id);
 	};
 
 	return (
@@ -35,7 +29,7 @@ const Cryptocurrency = (props) => {
 			<td>{Math.round((props.sevenDaysChange + Number.EPSILON) * 100) / 100} %</td>
 			<td>
 				<Button
-					onClick={toggleObserved}
+					onClick={toggleObservedCurrencies}
 					buttonMessage={observedCurrenciesIds.has(props.id) ? removeFromObserved : addToObserved}
 				/>
 			</td>

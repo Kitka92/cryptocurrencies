@@ -12,6 +12,14 @@ const CryptocurrenciesDasboard = () => {
 	const API_KEY = 'ab9b3876-c43d-425a-b9f8-3756e97bda52';
 	const [ cryptocurrencies, setCryptocurrencies ] = useState([]);
 
+	const getObservedCurrenciesFromLocalStorage = (key) => {
+		if (key) {
+			return new Set(JSON.parse(localStorage.getItem(key)));
+		} else {
+			console.log('error while getting data from localStorage');
+		}
+	};
+
 	const fetchCurrencies = useCallback(async () => {
 		const response = await axios.get(
 			`http://localhost:8080/https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?CMC_PRO_API_KEY=${API_KEY}&limit=10`
@@ -33,12 +41,21 @@ const CryptocurrenciesDasboard = () => {
 			return cryptocurrency;
 		});
 
+		const alreadyObservedCurrencies = getObservedCurrenciesFromLocalStorage('observedCurrenciesIds');
+
 		const transformedCurrencies = cryptocurrenciesWithImages.map((currency) => {
+			let isObserved;
+			if (alreadyObservedCurrencies.has(currency.id)) {
+				isObserved = true;
+			} else {
+				isObserved = false;
+			}
+
 			return {
 				id: currency.id,
 				name: currency.name,
 				icon: currency.icon,
-				isObserved: false,
+				isObserved: isObserved,
 				symbol: currency.symbol,
 				price: currency.quote.USD.price,
 				oneHourChange: currency.quote.USD.percent_change_1h,

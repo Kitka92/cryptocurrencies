@@ -5,33 +5,25 @@ export const ObservedCurrenciesContext = createContext();
 export const ObservedCurrenciesProvider = (props) => {
 	const [ observedCurrenciesIds, setObservedCurrenciesIds ] = useState(new Set());
 
-	const addCurrenciesToObserved = (currencyId) => {
-		const observedCurrencyId = props.cryptocurrencies
-			.filter((currency) => currency.id === currencyId)
-			.map((currency) => currency.id);
-
-		setObservedCurrenciesIds(
-			(observedCurrenciesIds) => new Set([ ...observedCurrenciesIds, ...observedCurrencyId ])
-		);
-	};
-
-	const removeCurrenciesFromObserved = (currencyId) => {
+	const toggleObserved = (currencyId) => {
 		const observedCurrencyId = props.cryptocurrencies
 			.filter((currency) => currency.id === currencyId)
 			.map((currency) => currency.id);
 
 		const observedCurrenciesIdsCopy = new Set(observedCurrenciesIds);
+		const [ observedCurrencyIdValue ] = observedCurrencyId;
 
-		observedCurrencyId.forEach((value) => {
-			observedCurrenciesIdsCopy.delete(value);
-			setObservedCurrenciesIds(new Set(observedCurrenciesIdsCopy));
-		});
+		if (observedCurrenciesIds.has(currencyId)) {
+			observedCurrenciesIdsCopy.delete(observedCurrencyIdValue);
+		} else {
+			observedCurrenciesIdsCopy.add(observedCurrencyIdValue);
+		}
+		setObservedCurrenciesIds(new Set(observedCurrenciesIdsCopy));
+		localStorage.setItem('observedCurrenciesIds', JSON.stringify([ ...observedCurrenciesIdsCopy ]));
 	};
 
 	return (
-		<ObservedCurrenciesContext.Provider
-			value={{ observedCurrenciesIds, addCurrenciesToObserved, removeCurrenciesFromObserved }}
-		>
+		<ObservedCurrenciesContext.Provider value={{ observedCurrenciesIds, toggleObserved }}>
 			{props.children}
 		</ObservedCurrenciesContext.Provider>
 	);
