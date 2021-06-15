@@ -2,21 +2,26 @@ import { useState, useContext } from 'react';
 import TableWrapper from '../../UI/TableWrapper/TableWrapper';
 import Cryptocurrency from '../Cryptocurrency/Cryptocurrency';
 import Container from '../../UI/Container/Container';
-// import toggleObserved from '../../../helpers/toggleObserved';
 import filterCurrencies from '../../../helpers/filterCurrencies';
 import { ThemeContext } from '../../../context/ThemeContext';
-import { ObservedCurrenciesContext } from '../../../context/ObservedCurrenciesContext';
 
 import styles from './CryptocurrenciesList.module.css';
+import { ObservedCurrenciesContext } from '../../../context/ObservedCurrenciesContext';
 
 const CryptocurrenciesList = (props) => {
 	const [ searchedVal, setSearchedVal ] = useState('');
-	// const setObserved = toggleObserved(props.cryptocurrencies, props.setCurrencies);
 	const { isDarkMode } = useContext(ThemeContext);
+	const { observedCurrenciesIds } = useContext(ObservedCurrenciesContext);
 
 	const cryptoCurrenciesToDisplay = filterCurrencies(searchedVal, props.cryptocurrencies);
 	const cryptocurrenciesList = cryptoCurrenciesToDisplay.map((cryptocurrency) => {
-		return <Cryptocurrency key={cryptocurrency.id} {...cryptocurrency} />;
+		return (
+			<Cryptocurrency
+				key={cryptocurrency.id}
+				{...cryptocurrency}
+				isObserved={observedCurrenciesIds.has(cryptocurrency.id)}
+			/>
+		);
 	});
 
 	const handleChange = (event) => {

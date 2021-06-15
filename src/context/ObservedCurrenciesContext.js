@@ -1,14 +1,23 @@
 import { createContext, useState } from 'react';
+import { getDataFromLocalStorage } from '../helpers/localStorageFinder';
 
 export const ObservedCurrenciesContext = createContext();
 
+const newLocal = 'observedCurrenciesIds';
 export const ObservedCurrenciesProvider = (props) => {
-	const [ observedCurrenciesIds, setObservedCurrenciesIds ] = useState(new Set());
+	const getObservedCurrenciesFromLocalStorage = () => {
+		return new Set(JSON.parse(getDataFromLocalStorage(newLocal)));
+	};
+	const [ observedCurrenciesIds, setObservedCurrenciesIds ] = useState(getObservedCurrenciesFromLocalStorage());
 
 	const toggleObserved = (currencyId) => {
 		const observedCurrencyId = props.cryptocurrencies
 			.filter((currency) => currency.id === currencyId)
 			.map((currency) => currency.id);
+
+		if (observedCurrencyId.length === 0) {
+			return;
+		}
 
 		const observedCurrenciesIdsCopy = new Set(observedCurrenciesIds);
 		const [ observedCurrencyIdValue ] = observedCurrencyId;
@@ -18,8 +27,8 @@ export const ObservedCurrenciesProvider = (props) => {
 		} else {
 			observedCurrenciesIdsCopy.add(observedCurrencyIdValue);
 		}
+		localStorage.setItem(newLocal, JSON.stringify([ ...observedCurrenciesIdsCopy ]));
 		setObservedCurrenciesIds(new Set(observedCurrenciesIdsCopy));
-		localStorage.setItem('observedCurrenciesIds', JSON.stringify([ ...observedCurrenciesIdsCopy ]));
 	};
 
 	return (
