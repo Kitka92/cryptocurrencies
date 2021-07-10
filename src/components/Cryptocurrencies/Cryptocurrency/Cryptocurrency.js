@@ -30,8 +30,7 @@ const Cryptocurrency = (props) => {
 			<td>
 				<Button
 					onClick={toggleObservedCurrencies}
-					// buttonMessage={observedCurrenciesIds.has(props.id) ? removeFromObserved : addToObserved}
-					buttonMessage={props.isObserved ? removeFromObserved : addToObserved}
+					buttonMessage={observedCurrenciesIds.has(props.id) ? removeFromObserved : addToObserved}
 				/>
 			</td>
 		</tr>
